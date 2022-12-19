@@ -24,6 +24,9 @@ var login = function(isi_token) {
 }
 
 module.exports = {
+  Api: function () {
+    return tokenApi();
+  },
   LoginWebServis: function(isi_token) {
     return login(isi_token);
   },

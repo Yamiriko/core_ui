@@ -32,8 +32,8 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Mahasiswa',
-    to: '/mahasiswa',
+    name: 'Bio Data',
+    to: '/biodata',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
   {
