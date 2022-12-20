@@ -6,6 +6,7 @@ import swal from 'sweetalert'
 import toastr from 'toastr'
 import momentjs from 'moment-timezone';
 import Token from 'src/backend/Token'
+import id from 'date-fns/locale/id';
 
 const BioData = () => {
   const [list, setList] = useState([]);
@@ -81,7 +82,7 @@ const BioData = () => {
                         {
                           list.length > 0 ? 
                           list.map((item,idx) => {
-                            let tgl_lahir = momentjs(item.tgl_lahir).tz('Asia/Jakarta').locale("id").format("DD MMMM YYYY")
+                            let tgl_lahir = momentjs(item.tgl_lahir).tz('Asia/Jakarta').locale(id).format("DD MMMM YYYY")
                             return(
                               <tr key={idx}>
                                 <td className="text-center">{item.kode}</td>
