@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { CCard, CCardBody, CCardHeader, CCardTitle, CCol, CRow } from '@coreui/react'
+import { CCard, CCardBody, CCardHeader, CCardTitle, CCol, CRow, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow } from '@coreui/react'
 import React, { useEffect, useState } from 'react'
 import Fungsi from 'src/backend/Fungsi'
 import swal from 'sweetalert'
@@ -61,43 +61,43 @@ const BioData = () => {
           <CCard>
             <CCardHeader>
               <CCardTitle>
-                <h4>Bio Data</h4>
+                Bio Data
               </CCardTitle>
             </CCardHeader>
             <CCardBody>
               <CRow>
                 <CCol md={12}>
                   <div className='table-responsive'>
-                    <table className='table table-bordered table-hover table-striped'>
-                      <thead>
-                        <tr>
-                          <th className="text-center">Kode</th>
-                          <th className="text-center">Nama</th>
-                          <th className="text-center">Jenis Kelamin</th>
-                          <th className="text-center">Tanggal Lahir</th>
-                        </tr>
-                      </thead>
-                      <tbody>
+                    <CTable striped hover bordered responsive="lg">
+                      <CTableHead>
+                        <CTableRow>
+                          <CTableHeaderCell className="text-center">Kode</CTableHeaderCell>
+                          <CTableHeaderCell className="text-center">Nama</CTableHeaderCell>
+                          <CTableHeaderCell className="text-center">Jenis Kelamin</CTableHeaderCell>
+                          <CTableHeaderCell className="text-center">Tanggal Lahir</CTableHeaderCell>
+                        </CTableRow>
+                      </CTableHead>
+                      <CTableBody>
                         {
                           list.length > 0 ? 
                           list.map((item,idx) => {
                             let tgl_lahir = momentjs(item.tgl_lahir).tz('Asia/Jakarta').locale('id').format("DD MMMM YYYY")
                             return(
-                              <tr key={idx}>
-                                <td className="text-center">{item.kode}</td>
-                                <td className="text-center">{item.nama}</td>
-                                <td className="text-center">{item.jenis_kelamin}</td>
-                                <td className="text-center">{tgl_lahir}</td>
-                              </tr>
+                              <CTableRow key={idx}>
+                                <CTableDataCell>{item.kode}</CTableDataCell>
+                                <CTableDataCell>{item.nama}</CTableDataCell>
+                                <CTableDataCell>{item.jenis_kelamin}</CTableDataCell>
+                                <CTableDataCell>{tgl_lahir}</CTableDataCell>
+                              </CTableRow>
                             )
                           })
                           :
-                          <tr>
-                            <td className="text-center" colSpan={4}><i className="text-info">Belum Ada Datanya.</i></td>
-                          </tr>
+                          <CTableRow key={1}>
+                            <CTableHeaderCell className="text-center" colSpan={4}><i className="text-info">Belum Ada Datanya.</i></CTableHeaderCell>
+                          </CTableRow>
                         }
-                      </tbody>
-                    </table>
+                      </CTableBody>
+                    </CTable>
                   </div>
                 </CCol>
               </CRow>

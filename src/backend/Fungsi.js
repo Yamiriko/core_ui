@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
 const momentjs = require('moment-timezone')
-// var localIpUrl = require('local-ip-url')
 
-// var serverGlobal = 'http://' + localIpUrl('private', 'ipv4') + ':81'
-var serverGlobal = 'http://localhost:81'
+// eslint-disable-next-line no-restricted-globals
+var serverGlobal = 'http://' + location.hostname + ':81'
+// var serverGlobal = 'http://localhost:81'
 var kontentipe = 'application/x-www-form-urlencoded; charset=UTF-8'
 var apiBioData = serverGlobal + '/api/tampil_biodata'
 
@@ -341,5 +341,9 @@ module.exports = {
   },
   WaktuSekarang: function (formatnya) {
     return waktu_sekarang(formatnya)
+  },
+  GetIpLocal: function () {
+    // eslint-disable-next-line no-restricted-globals
+    return location.hostname
   },
 }
