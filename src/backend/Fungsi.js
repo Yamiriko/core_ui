@@ -2,8 +2,8 @@
 const momentjs = require('moment-timezone')
 
 // eslint-disable-next-line no-restricted-globals
-var serverGlobal = 'http://' + location.hostname + ':81'
-// var serverGlobal = 'http://localhost:81'
+// var serverGlobal = 'http://' + location.hostname + ':81'
+var serverGlobal = 'http://localhost:81'
 var kontentipe = 'application/x-www-form-urlencoded; charset=UTF-8'
 var apiBioData = serverGlobal + '/api/tampil_biodata'
 
@@ -282,6 +282,10 @@ var waktu_sekarang = function (formatnya) {
   return tampil_sekarang
 }
 
+const buka_link = (linknya) => {
+  window.location = linknya
+}
+
 module.exports = {
   kontentipe: kontentipe,
   apiBioData: apiBioData,
@@ -346,4 +350,7 @@ module.exports = {
     // eslint-disable-next-line no-restricted-globals
     return location.hostname
   },
+  BukaLink : function(alamatnya) {
+    return buka_link(alamatnya)
+  }
 }
