@@ -6,6 +6,8 @@ const momentjs = require('moment-timezone')
 var serverGlobal = 'http://localhost:81'
 var kontentipe = 'application/x-www-form-urlencoded; charset=UTF-8'
 var apiBioData = serverGlobal + '/api/tampil_biodata'
+var tambahBiodata = serverGlobal + '/api/tambah_biodata'
+var hapusBiodata = serverGlobal + '/api/hapus_biodata'
 
 var cari_data = function (nama_tabel, nama_field, kondisi) {
   let sql
@@ -289,6 +291,8 @@ const buka_link = (linknya) => {
 module.exports = {
   kontentipe: kontentipe,
   apiBioData: apiBioData,
+  tambahBiodata: tambahBiodata,
+  hapusBiodata: hapusBiodata,
   CariData: function (nama_tabel, nama_field, kondisi) {
     return cari_data(nama_tabel, nama_field, kondisi)
   },

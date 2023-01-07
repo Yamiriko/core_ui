@@ -19,7 +19,8 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Fungsi from 'src/backend/Fungsi'
 import swal from 'sweetalert'
-import toastr from 'toastr'
+import AWN from 'awesome-notifications'
+import 'awesome-notifications/src/styles/style.scss'
 import momentjs from 'moment-timezone'
 import Token from 'src/backend/Token'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -32,7 +33,9 @@ const BioData = () => {
   const [page, setPage] = useState(currentPage)
   const history = useNavigate()
   const tambah_data_klik = useCallback(() => history('/biodata/tambah'), [history])
-
+  const notifier = new AWN({
+    maxNotifications: 6,
+  })
   const [list, setList] = useState([])
 
   function loading_swal() {
@@ -71,13 +74,44 @@ const BioData = () => {
       })
       .catch((error) => {
         swal.close()
-        toastr.error('Error Parsing : ' + error, 'Error')
+        notifier.alert('Pesan Error System : ' + error)
       })
   }
 
   function ubahData(kodenya) {
     const linkUbah = '/#/biodata/ubah/?kode=' + Base64.encode(kodenya)
     Fungsi.BukaLink(linkUbah)
+  }
+
+  function hapusData(kode) {
+    let rhs = Token.Api()
+    let fd = 'token=' + rhs
+    fd += '&kode=' + Base64.encode(kode)
+    const optionku = {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': Fungsi.kontentipe,
+      },
+      body: fd,
+    }
+
+    fetch(Fungsi.hapusBiodata, optionku)
+      .then((response) => response.json(), loading_swal())
+      .then((data_json) => {
+        swal.close()
+        if (data_json.status_hapus) {
+          notifier.info('Pesan System : ' + data_json.pesan)
+          tampilData()
+        }
+        else{
+          notifier.warning('Pesan System : ' + data_json.pesan)
+        }
+      })
+      .catch((error) => {
+        swal.close()
+        notifier.alert('Pesan Error System : ' + error)
+      })
   }
 
   useEffect(() => {
@@ -161,6 +195,7 @@ const BioData = () => {
                                       color="danger"
                                       title="Hapus Data Ini ?"
                                       size="sm"
+                                      onClick={()=> hapusData(item.kode)}
                                     >
                                       <FontAwesomeIcon icon={faTrash} />
                                     </CButton>
