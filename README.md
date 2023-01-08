@@ -7,7 +7,8 @@
  </div>
  Core UI ReactJS dengan Node JS untuk Pembelajaran Saja<br>
  Setelah Didonwload atau di clone<br><br>
- Import Databasenya yang bernama : <b><i>"coba.sql"</i></b><br><br>
+ Import Databasenya yang bernama : <b><i>"coba.sql"</i></b><br>
+ Tutorial Importnya : <a target="_blank" href="https://youtu.be/80W64j_d3NI">Video Youtube</a><br><br>
  <div>
  Jalankan perintah ini di Terminal bawaan Visual Studio Code : <br>
  1. <b><i>npm install</i></b> <br>
