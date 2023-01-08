@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 17 Des 2022 pada 17.05
+-- Waktu pembuatan: 08 Jan 2023 pada 11.39
 -- Versi server: 10.1.22-MariaDB
 -- Versi PHP: 7.2.5
 
@@ -48,7 +48,8 @@ INSERT INTO `tb_coba` (`kode`, `nama`, `jenis_kelamin`, `tgl_lahir`) VALUES
 ('A-3', 'Undertaker', 'Laki-Laki', '1978-03-12'),
 ('A-4', 'Lara Croft', 'Perempuan', '1983-03-10'),
 ('A-5', 'Emma Watson', 'Perempuan', '1983-03-10'),
-('A-6', 'TES input', 'Laki-Laki', '1980-11-21');
+('A-6', 'TES input, Ubah 2', 'Laki-Laki', '1980-11-21'),
+('A-7', 'Nama Input 7', 'Perempuan', '2023-01-02');
 
 -- --------------------------------------------------------
 

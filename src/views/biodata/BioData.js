@@ -79,39 +79,64 @@ const BioData = () => {
   }
 
   function ubahData(kodenya) {
-    const linkUbah = '/#/biodata/ubah/?kode=' + Base64.encode(kodenya)
-    Fungsi.BukaLink(linkUbah)
+    const linkUbah = '/biodata/ubah/?kode=' + Base64.encode(kodenya)
+    history(linkUbah)
   }
 
   function hapusData(kode) {
-    let rhs = Token.Api()
-    let fd = 'token=' + rhs
-    fd += '&kode=' + Base64.encode(kode)
-    const optionku = {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': Fungsi.kontentipe,
-      },
-      body: fd,
-    }
+    if (!kode) {
+      notifier.warning('Pesan System : Kode Untuk Hapusnya Kosong !')
+    } else {
+      swal({
+        title: 'Yakin Hapus Data ini ?',
+        text: '',
+        icon: 'info',
+        closeOnClickOutside: false,
+        closeOnEsc: false,
+        buttons: {
+          batal: {
+            text: 'Tidak Jadi',
+            value: 'batal',
+            className: 'btn btn-secondary',
+          },
+          acc: {
+            text: 'Ya',
+            value: 'ya',
+            className: 'btn btn-danger',
+          },
+        },
+      }).then((value) => {
+        if (value === 'ya') {
+          let rhs = Token.Api()
+          let fd = 'token=' + rhs
+          fd += '&kode=' + Base64.encode(kode)
+          const optionku = {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+              'Content-Type': Fungsi.kontentipe,
+            },
+            body: fd,
+          }
 
-    fetch(Fungsi.hapusBiodata, optionku)
-      .then((response) => response.json(), loading_swal())
-      .then((data_json) => {
-        swal.close()
-        if (data_json.status_hapus) {
-          notifier.info('Pesan System : ' + data_json.pesan)
-          tampilData()
-        }
-        else{
-          notifier.warning('Pesan System : ' + data_json.pesan)
+          fetch(Fungsi.hapusBiodata, optionku)
+            .then((response) => response.json(), loading_swal())
+            .then((data_json) => {
+              swal.close()
+              if (data_json.status_hapus) {
+                notifier.info('Pesan System : ' + data_json.pesan)
+                tampilData()
+              } else {
+                notifier.warning('Pesan System : ' + data_json.pesan)
+              }
+            })
+            .catch((error) => {
+              swal.close()
+              notifier.alert('Pesan Error System : ' + error)
+            })
         }
       })
-      .catch((error) => {
-        swal.close()
-        notifier.alert('Pesan Error System : ' + error)
-      })
+    }
   }
 
   useEffect(() => {
@@ -132,10 +157,12 @@ const BioData = () => {
                     Bio Data
                   </CCol>
                   <CCol className="text-end" md={4}>
-                    <CButton type="button" 
-                    color="primary" 
-                    title="Tambahkan Data Baru?"
-                    onClick={tambah_data_klik}>
+                    <CButton
+                      type="button"
+                      color="primary"
+                      title="Tambahkan Data Baru?"
+                      onClick={tambah_data_klik}
+                    >
                       <FontAwesomeIcon icon={faPlus} /> Tambah Data
                     </CButton>
                   </CCol>
@@ -186,7 +213,7 @@ const BioData = () => {
                                       color="warning"
                                       title="Ubah Data Ini ?"
                                       size="sm"
-                                      onClick={()=> ubahData(item.kode)}
+                                      onClick={() => ubahData(item.kode)}
                                     >
                                       <FontAwesomeIcon icon={faPencil} />
                                     </CButton>
@@ -195,7 +222,7 @@ const BioData = () => {
                                       color="danger"
                                       title="Hapus Data Ini ?"
                                       size="sm"
-                                      onClick={()=> hapusData(item.kode)}
+                                      onClick={() => hapusData(item.kode)}
                                     >
                                       <FontAwesomeIcon icon={faTrash} />
                                     </CButton>
@@ -210,7 +237,7 @@ const BioData = () => {
                           })
                         ) : (
                           <CTableRow key={1}>
-                            <CTableHeaderCell className="text-center" colSpan={4}>
+                            <CTableHeaderCell className="text-center" colSpan={6}>
                               <i className="text-info">Belum Ada Datanya.</i>
                             </CTableHeaderCell>
                           </CTableRow>

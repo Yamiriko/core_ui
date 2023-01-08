@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import AWN from 'awesome-notifications'
 import 'awesome-notifications/src/styles/style.scss'
@@ -16,11 +16,12 @@ import Flatpickr from 'react-flatpickr'
 import Base64 from 'base-64'
 import $ from 'jquery'
 
-const BioDataTambah  = () => {
+const BioDataUbah  = () => {
   const history = useNavigate()
   const Kembali = useCallback(() => history('/biodata'), [history])
   const { register, handleSubmit } = useForm()
   const [visible, setVisible] = useState(true)
+  const [searchParams] = useSearchParams()
   const notifier = new AWN({
     maxNotifications: 6,
   })
@@ -44,15 +45,45 @@ const BioDataTambah  = () => {
     })
   }
 
-  function resetForm() {
-    $('#form_input').trigger('reset')
-    $('#kode').focus()
+  function tampilData() {
+    let rhs = Token.Api()
+    let fd = 'token=' + rhs
+    fd += '&kode=' + searchParams.get('kode')
+    const optionku = {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': Fungsi.kontentipe,
+      },
+      body: fd,
+    }
+
+    fetch(Fungsi.apiBioData, optionku)
+      .then((response) => response.json(), loading_swal())
+      .then((data_json) => {
+        swal.close()
+        if (data_json.jumlah_data > 0) {
+          let obj = data_json.data
+          $("#kode").val(Base64.decode(searchParams.get('kode')))
+          $("#nama").val(obj[0].nama)
+          $("#jenis_kelamin").val(obj[0].jenis_kelamin)
+          let tgl_lahir = Fungsi.KonversiTgl(obj[0].tgl_lahir,'YYYY-MM-DD')
+          $("#tgl_lahir").val(tgl_lahir)
+        }
+        else{
+          notifier.warning('Pesan System : ' + data_json.pesan)
+        }
+      })
+      .catch((error) => {
+        swal.close()
+        notifier.alert('Pesan Error System : ' + error)
+      })
   }
 
   function onSubmit(data) {
     let kode = data.kode
     let nama = data.nama
-    let jenis_kelamin = $('#jenis_kelamin').val()
+    let jenis_kelamin = data.jenis_kelamin
     let tgl_lahir = $('#tgl_lahir').val()
 
     let rhs = Token.Api()
@@ -71,13 +102,12 @@ const BioDataTambah  = () => {
       body: fd,
     }
 
-    fetch(Fungsi.tambahBiodata, optionku)
+    fetch(Fungsi.ubahBiodata, optionku)
       .then((response) => response.json(), loading_swal())
       .then((data_json) => {
         swal.close()
-        if (data_json.status_simpan) {
+        if (data_json.status_ubah) {
           notifier.success('Pesan System : ' + data_json.pesan)
-          resetForm()
         }
         else{
           notifier.warning('Pesan System : ' + data_json.pesan)
@@ -89,6 +119,11 @@ const BioDataTambah  = () => {
       })
   }
 
+  useEffect(() => {
+    tampilData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return(
     <CRow>
       <CCol md={12}>
@@ -96,7 +131,7 @@ const BioDataTambah  = () => {
           <CCardHeader>
             <CCardTitle>
               <CRow>
-                Tambah Biodata
+                Ubah Biodata
               </CRow>
             </CCardTitle>
           </CCardHeader>
@@ -128,7 +163,7 @@ const BioDataTambah  = () => {
                               name="kode"
                               id="kode"
                               autoComplete="off"
-                              autoFocus
+                              readOnly
                               maxLength={50}
                               {...register('kode', { required: true, maxLength: 25 })}
                             /> 
@@ -141,6 +176,7 @@ const BioDataTambah  = () => {
                               name="nama"
                               id="nama"
                               autoComplete="off"
+                              autoFocus
                               maxLength={50}
                               {...register('nama', { required: true, maxLength: 50 })}
                             /> 
@@ -197,4 +233,4 @@ const BioDataTambah  = () => {
   )
 }
 
-export default BioDataTambah
+export default BioDataUbah

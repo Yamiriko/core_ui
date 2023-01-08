@@ -3,6 +3,7 @@ import React from 'react'
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const BioData = React.lazy(() => import('./views/biodata/BioData'))
 const BioDataTambah = React.lazy(() => import('./views/biodata/BioDataTambah'))
+const BioDataUbah = React.lazy(() => import('./views/biodata/BioDataUbah'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
@@ -54,9 +55,10 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
-  { path: '/dashboard', exact: true, name: 'Dahsboard', element: Dashboard },
-  { path: '/biodata', exact: true, name: 'Biodata', element: BioData },
-  { path: '/biodata/tambah', exact: true, name: 'Tambah Biodata', element: BioDataTambah },
+  { path: '/dashboard', name: 'Dahsboard', element: Dashboard, exact: true },
+  { path: '/biodata', name: 'Biodata', element: BioData, exact: true },
+  { path: '/biodata/tambah', name: 'Tambah Biodata', element: BioDataTambah },
+  { path: '/biodata/ubah', name: 'Ubah Biodata', element: BioDataUbah },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
   { path: '/theme/typography', name: 'Typography', element: Typography },

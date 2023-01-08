@@ -7,6 +7,7 @@ var serverGlobal = 'http://localhost:81'
 var kontentipe = 'application/x-www-form-urlencoded; charset=UTF-8'
 var apiBioData = serverGlobal + '/api/tampil_biodata'
 var tambahBiodata = serverGlobal + '/api/tambah_biodata'
+var ubahBiodata = serverGlobal + '/api/ubah_biodata'
 var hapusBiodata = serverGlobal + '/api/hapus_biodata'
 
 var cari_data = function (nama_tabel, nama_field, kondisi) {
@@ -284,6 +285,12 @@ var waktu_sekarang = function (formatnya) {
   return tampil_sekarang
 }
 
+var konversi_tgl = function (tglnya, formatnya) {
+  momentjs().locale('id')
+  let hasilnya = momentjs(tglnya).tz('Asia/Jakarta').format(formatnya)
+  return hasilnya
+}
+
 const buka_link = (linknya) => {
   window.location = linknya
 }
@@ -292,6 +299,7 @@ module.exports = {
   kontentipe: kontentipe,
   apiBioData: apiBioData,
   tambahBiodata: tambahBiodata,
+  ubahBiodata: ubahBiodata,
   hapusBiodata: hapusBiodata,
   CariData: function (nama_tabel, nama_field, kondisi) {
     return cari_data(nama_tabel, nama_field, kondisi)
@@ -349,6 +357,9 @@ module.exports = {
   },
   WaktuSekarang: function (formatnya) {
     return waktu_sekarang(formatnya)
+  },
+  KonversiTgl: function (tglnya, formatnya) {
+    return konversi_tgl(tglnya, formatnya)
   },
   GetIpLocal: function () {
     // eslint-disable-next-line no-restricted-globals
